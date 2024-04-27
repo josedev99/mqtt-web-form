@@ -11,7 +11,6 @@ function startConnect() {
     document.getElementById("messages").innerHTML += "<span> Using the client Id " + clientID + " </span><br>";
 
     client = new Paho.MQTT.Client(host,parseInt(port), clientID);
-    console.log(client)
     client.onConnectionLost = onConnectionLost;
     client.onMessageArrived = onMessageArrived;
 
@@ -49,15 +48,15 @@ function startDisconnect() {
 }
 
 function publishMessage() {
-    msg = document.getElementById("Message").value;
-    topic = document.getElementById("topic_p").value;
+    var msg = document.getElementById("Message").value;
+    var topic = document.getElementById("topic_p").value;
+    var qos = 1; // Define the Quality of Service (QoS) level, adjust as needed
+    var retained = false; // Define whether the message should be retained or not, adjust as needed
 
-    /* Message = new Paho.MQTT.Message(msg);
-    Message.destinationName = topic; */
+    // Send the message with MQTT client
     client.send(topic, msg, qos, retained);
-    console.log('Mensaje publicado: ' + message);
-
-    client.send(Message);
+    
+    console.log('Mensaje publicado: ' + msg);
+    
     document.getElementById("messages").innerHTML += "<span> Message to topic " + topic + " is sent </span><br>";
-
 }
